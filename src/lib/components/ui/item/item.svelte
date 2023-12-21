@@ -22,11 +22,12 @@
   const sizes =
     '(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))';
   $: ({alt, height, src, width} = image);
+  $: purgedSrc = src.split('?').shift()!;
   $: imageProps = {
     alt,
     height: `${height}px`,
     sizes,
-    src: `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=75`,
+    src: `/_vercel/image?url=${encodeURIComponent(purgedSrc)}&w=${width}&q=75`,
     width: `${width}px`,
   };
 
