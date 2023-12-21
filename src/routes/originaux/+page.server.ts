@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import {findEntry} from '$lib/server';
 import {zPageOriginals} from '$lib/server/schemas';
 import type {PageServerLoad} from './$types';
