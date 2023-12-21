@@ -8,9 +8,11 @@ import {filterNonEmptySets, setItemFrom, workItemFrom} from './utils';
 // IMAGE -----------------------------------------------------------------------------------------------------------------------------------
 export const zImageDto = zDataEntry(zImageData).transform(({data: {alt, height, src, width}, id: slug}) => ({
   alt,
+  height,
   ratio: width / height,
   slug,
   src,
+  width,
   widths: [256, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
 }));
 
