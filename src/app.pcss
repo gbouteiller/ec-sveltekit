@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-background: 0 0% 100%;
+    --color-foreground: 0 0% 3.9%;
+
+    --color-muted: 0 0% 96.1%;
+    --color-muted-foreground: 0 0% 45.1%;
+
+    --color-popover: 0 0% 100%;
+    --color-popover-foreground: 0 0% 3.9%;
+
+    --color-card: 0 0% 100%;
+    --color-card-foreground: 0 0% 3.9%;
+
+    --color-border: 0 0% 89.8%;
+    --color-input: 0 0% 89.8%;
+
+    --color-primary: 193.3 89.4% 70.4%;
+    --color-primary-foreground: 0 0% 98%;
+
+    --color-secondary: 35.5 98.2% 78%;
+    --color-secondary-foreground: 0 0% 9%;
+
+    --color-dark: 0 0% 6.7%;
+    --color-dark-foreground: 0 0% 98%;
+
+    --color-light: 0 0% 96%;
+    --color-light-foreground: 0 0% 9%;
+
+    --color-accent: 0 0% 96.1%;
+    --color-accent-foreground: 0 0% 9%;
+
+    --color-destructive: 0 84.2% 60.2%;
+    --color-destructive-foreground: 0 0% 98%;
+
+    --color-success: 83.7 80.5% 44.3%;
+    --color-success-foreground: 0 0% 98%;
+
+    --font-family-base: 'OpenSans', 'OpenSans Fallback';
+    --font-family-heading: 'DancingScript', 'DancingScript Fallback';
+
+    --ring: 35.5 98.2% 78%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  @font-face {
+    font-family: 'DancingScript';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/DancingScript-Regular-subset.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'DancingScript Fallback';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Arial');
+    ascent-override: 115.78%;
+    descent-override: 35.24%;
+    line-gap-override: 0%;
+    size-adjust: 79.46%;
+  }
+
+  @font-face {
+    font-family: 'DancingScript';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/DancingScript-Bold-subset.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'DancingScript Fallback';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Arial Bold');
+    ascent-override: 122.33%;
+    descent-override: 37.23%;
+    line-gap-override: 0%;
+    size-adjust: 75.21%;
+  }
+
+  @font-face {
+    font-family: 'OpenSans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/OpenSans-Regular-subset.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'OpenSans Fallback';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Arial');
+    ascent-override: 101.58%;
+    descent-override: 27.84%;
+    line-gap-override: 0%;
+    size-adjust: 105.22%;
+  }
+
+  @font-face {
+    font-family: 'OpenSans';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/OpenSans-Bold-subset.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'OpenSans Fallback';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Arial Bold');
+    ascent-override: 101.97%;
+    descent-override: 27.95%;
+    line-gap-override: 0%;
+    size-adjust: 104.82%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

@@ -1,0 +1,17 @@
+<!-- <Section intent="primary" {title}>
+  <UiArticle>{body}</UiArticle>
+</Section> -->
+<Section grid={items}>
+  {#each items as item, index}<Item {index} {...item} />{/each}
+</Section>
+
+<script lang="ts">
+  import {Item} from '$lib/components/ui/item';
+  import {Section} from '$lib/components/ui/section';
+
+  // PROPS ---------------------------------------------------------------------------------------------------------------------------------
+  export let data;
+
+  // VARS ----------------------------------------------------------------------------------------------------------------------------------
+  $: ({items} = data);
+</script>
