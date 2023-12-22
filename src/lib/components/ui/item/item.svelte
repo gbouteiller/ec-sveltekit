@@ -27,8 +27,7 @@
     alt,
     height,
     sizes,
-    src,
-    //srcset: `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=75`,
+    src: `/_vercel/image?url=${encodeURIComponent(src)}&w=${1920}&q=75`,
     width,
   };
 
