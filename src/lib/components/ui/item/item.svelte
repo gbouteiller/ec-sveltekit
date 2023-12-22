@@ -25,10 +25,10 @@
   $: purgedSrc = src.split('?').shift()!;
   $: imageProps = {
     alt,
-    height: `${height}px`,
+    height,
     sizes,
     src,//src: `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=75`,
-    width: `${width}px`,
+    width,
   };
 
   // STYLES --------------------------------------------------------------------------------------------------------------------------------

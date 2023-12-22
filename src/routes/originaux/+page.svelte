@@ -4,6 +4,7 @@
 <Section grid={items}>
   {#each items as item, index}<Item {index} {...item} />{/each}
 </Section>
+<img src="favicon.png" alt="favicon" width="128" height="128" />
 
 <script lang="ts">
   import {Item} from '$lib/components/ui/item';
