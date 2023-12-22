@@ -4,7 +4,7 @@
     {#if title}<h3 class={TITLE({class: c.TITLE})}>{title}</h3>{/if}
   </hgroup>
   <figure class={FIGURE({class: c.FIGURE})}>
-    <img {...imageProps} class="transition duration-500 ease-in-out hover:scale-110" />
+    <img {src} {...imageProps} class="transition duration-500 ease-in-out hover:scale-110" />
     <slot />
   </figure>
 </a>
@@ -21,15 +21,14 @@
   // VARS ----------------------------------------------------------------------------------------------------------------------------------
   const sizes =
     '(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))';
-  $: ({alt, height, src, width} = image);
-  $: purgedSrc = src.split('?').shift()!;
+  $: ({alt, height, width} = image);
   $: imageProps = {
     alt,
     height,
     sizes,
-    src: `/_vercel/image?url=${encodeURIComponent(src)}&w=${1920}&q=75`,
     width,
   };
+  $: src = `/_vercel/image?url=${encodeURIComponent(image.src)}&w=1920&q=75`;
 
   // STYLES --------------------------------------------------------------------------------------------------------------------------------
   let c: Props['class'] = {};
