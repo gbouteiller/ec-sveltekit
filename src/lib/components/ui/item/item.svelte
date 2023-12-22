@@ -10,7 +10,6 @@
 </a>
 
 <script lang="ts">
-  import {building} from '$app/environment';
   import {STYLES, type Props} from '.';
 
   // PROPS ---------------------------------------------------------------------------------------------------------------------------------
@@ -29,7 +28,7 @@
     sizes,
     width,
   };
-  $: src = building ? image.src : `/_vercel/image?url=${encodeURIComponent(image.src)}&w=1920&q=75`;
+  $: src = `/_vercel/image?url=${encodeURIComponent(image.src)}&w=1920&q=75`;
 
   // STYLES --------------------------------------------------------------------------------------------------------------------------------
   let c: Props['class'] = {};
