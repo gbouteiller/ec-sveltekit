@@ -33,7 +33,7 @@
   }
 
   function vercelSrcset(src: string, quality: number) {
-    return widths.map((width) => vercelSrc(src, width, quality)).join(',');
+    return widths.map((width) => `${vercelSrc(src, width, quality)} ${width}w`).join(',');
   }
 
   function getImage(src: string, quality: number, download: boolean, dev: boolean): GetImage {
