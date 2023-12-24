@@ -4,13 +4,22 @@
     {#if title}<h3 class={TITLE({class: c.TITLE})}>{title}</h3>{/if}
   </hgroup>
   <figure class={FIGURE({class: c.FIGURE})}>
-    <img {src} {...imageProps} class="transition duration-500 ease-in-out hover:scale-110" />
+    <Image
+      {alt}
+      {height}
+      {src}
+      {width}
+      aspectRatio={1}
+      sizes="(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))"
+      class="transition duration-500 ease-in-out hover:scale-110"
+    />
     <slot />
   </figure>
 </a>
 
 <script lang="ts">
   import {STYLES, type Props} from '.';
+  import {Image} from '../image';
 
   // PROPS ---------------------------------------------------------------------------------------------------------------------------------
   export let href: Props['href'];
@@ -19,16 +28,17 @@
   export let title: Props['title'];
 
   // VARS ----------------------------------------------------------------------------------------------------------------------------------
-  const sizes =
-    '(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))';
-  $: ({alt, height, width} = image);
+  const sizes = '';
+
+  //const imageProps = {...image, aspectRatio: 1, sizes};
+
+  $: ({alt, height, src, width} = image);
   $: imageProps = {
     alt,
     height,
     sizes,
     width,
   };
-  $: src = `/_vercel/image?url=${encodeURIComponent(image.src)}&w=1920&q=75`;
 
   // STYLES --------------------------------------------------------------------------------------------------------------------------------
   let c: Props['class'] = {};
