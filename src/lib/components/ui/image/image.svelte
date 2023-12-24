@@ -28,21 +28,24 @@
 
   const widths = [256, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
-  function vercelUrl(src: string, width: number, quality: number) {
+  function vercelSrc(src: string, width: number, quality: number) {
     return `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
+  }
+
+  function vercelSrcset(src: string, quality: number) {
+    return widths.map((width) => vercelSrc(src, width, quality)).join(',');
   }
 
   function getImage(src: string, quality: number, download: boolean, dev: boolean): GetImage {
     if (download) {
-      
     }
-    
+
     return {
       decoding: 'async',
       loading: 'lazy',
       height,
-      src: dev ? src : vercelUrl(src, widths.at(-1)!, quality),
-      srcset: dev ? undefined : '',
+      src: dev ? src : vercelSrc(src, widths.at(-1)!, quality),
+      srcset: dev ? undefined : vercelSrcset(src, quality),
       width,
     };
   }
