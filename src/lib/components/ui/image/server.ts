@@ -13,11 +13,13 @@ function getPath(name: string, dev: boolean) {
 }
 
 function imagesDir(dev: boolean) {
-  return dev ? './static/images' :  './static/images'// './.vercel/output/static/images';
+  return dev ? './static/images' : './.vercel/output/static/images';
 }
 
 async function writeFile(sharpImg: Sharp, {height, width}: ImgDimensions, path: string, dev: boolean) {
+  console.log(imagesDir(dev));
   await fs.mkdir(imagesDir(dev), {recursive: true});
+  console.log(path);
   return sharpImg.resize(width, height).toFile(path);
 }
 
