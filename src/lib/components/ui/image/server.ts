@@ -25,6 +25,7 @@ export async function downloadImage(src: string, alt: string, width: number, hei
   const format = src.split('?')[0].split('.').at(-1)!;
   const maybeName = getName(alt, {format}, getDimensions({height, width}, aspectRatio));
   const maybePath = getPath(maybeName, dev);
+  console.log('MAYBE PATH', maybePath);
   if (fs.existsSync(maybePath)) return `/images/${maybeName}`;
   const res = await fetch(src);
   const buffer = await res.arrayBuffer();
@@ -33,6 +34,7 @@ export async function downloadImage(src: string, alt: string, width: number, hei
   const dimensions = getDimensions(metadata, aspectRatio);
   const name = getName(alt, metadata, dimensions);
   const path = getPath(name, dev);
+  console.log('PATH', path);
   if (!fs.existsSync(path)) await writeFile(sharpImg, dimensions, path, dev);
   return `/images/${name}`;
 }
