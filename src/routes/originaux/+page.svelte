@@ -1,4 +1,4 @@
-{#await data.page}
+<!-- {#await data.page}
   Loading page...
 {:then page}
   {page.data.title}
@@ -13,14 +13,14 @@
   </Section>
 {:catch error}
   <p>error loading items: {error.message}</p>
-{/await}
+{/await} -->
 
 <!-- <Section intent="primary" {title}>
   <UiArticle>{body}</UiArticle>
 </Section> -->
-<!-- <Section grid={items}>
+<Section grid={items}>
   {#each items as item, index}<Item {index} {...item} />{/each}
-</Section> -->
+</Section>
 
 <!-- <img src="/_vercel/image?url=/favicon.png&w=256&q=75" alt="favicon" width="128" height="128" /> -->
 

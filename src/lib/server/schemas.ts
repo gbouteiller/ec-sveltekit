@@ -1,3 +1,5 @@
+import {dev} from '$app/environment';
+import {downloadImage} from '$lib/components/ui/image/server';
 import {zImageData, zMedia, zType} from '$lib/schemas';
 import {zContentEntry, zDataEntry, type ContentEntry, type DataEntry, type DataRef} from '@niama/notion-tools';
 import {z} from 'zod';
@@ -138,8 +140,23 @@ export const zPageOriginalsData = z.object({
 });
 
 export const zPageOriginals = zContentEntry(zPageOriginalsData).transform(async ({body, data: {title}}) => {
-  const [sets, works] = await Promise.all([findEntries(zContentEntry(zSetData).array())('sets'), findWorks()]);
-  return {body, items: filterNonEmptySets(sets, works).map(setItemFrom), title};
+  const items = (
+    await Promise.allSettled([findEntries(zContentEntry(zSetData).array())('sets'), findWorks()]).then(([rSets, rWorks]) =>
+      rSets.status === 'fulfilled' && rWorks.status === 'fulfilled'
+        ? Promise.all(
+            filterNonEmptySets(rSets.value, rWorks.value)
+              .map(setItemFrom)
+              .map(({href, image, title}) =>
+                downloadImage(image.src, image.alt, image.width, image.height, 1, dev).then(
+                  (src) => ({href, image: {...image, src}, title}),
+                  () => undefined
+                )
+              )
+          )
+        : []
+    )
+  ).filter(Boolean);
+  return {body, items, title};
 });
 
 // PAGE TO ORDER ---------------------------------------------------------------------------------------------------------------------------

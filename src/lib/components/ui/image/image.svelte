@@ -10,6 +10,7 @@
 <script lang="ts">
   import {dev} from '$app/environment';
   import {IMG} from './styles';
+  import {getImage} from './utils';
 
   // PROPS ---------------------------------------------------------------------------------------------------------------------------------
   export let alt = '';
@@ -24,35 +25,7 @@
   // export let lqip: GetImg['lqip'];
 
   // VARS ----------------------------------------------------------------------------------------------------------------------------------
-  $: props = getImage(src, quality, download, dev);
-
-  const widths = [256, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
-
-  function vercelSrc(src: string, width: number, quality: number) {
-    return `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
-  }
-
-  function vercelSrcset(src: string, quality: number) {
-    return widths.map((width) => `${vercelSrc(src, width, quality)} ${width}w`).join(',');
-  }
-
-  function getImage(src: string, quality: number, download: boolean, dev: boolean): GetImage {
-    if (download) {
-    }
-
-    return {
-      decoding: 'async',
-      loading: 'lazy',
-      height,
-      src: dev ? src : vercelSrc(src, widths.at(-1)!, quality),
-      srcset: dev ? undefined : vercelSrcset(src, quality),
-      width,
-    };
-  }
-
-  function downloadImage() {}
-
-  type GetImage = {decoding: 'async'; height: number; loading: 'lazy'; src: string; srcset?: string; width: number};
+  $: props = getImage(src, alt, height, width, aspectRatio, quality, download, dev);
 
   // STYLES --------------------------------------------------------------------------------------------------------------------------------
   let c = '';
