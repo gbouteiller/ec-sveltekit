@@ -1,9 +1,7 @@
-import {dev} from '$app/environment';
-import {downloadImage} from '$lib/components/ui/image/server';
 import {zImageData, zMedia, zType} from '$lib/schemas';
 import {zContentEntry, zDataEntry, type ContentEntry, type DataEntry, type DataRef} from '@niama/notion-tools';
 import {z} from 'zod';
-import {findEntries, findEntry} from '.';
+import {cacheImage, findEntries, findEntry} from '.';
 import {i18n} from './i18n';
 import {filterNonEmptySets, setItemFrom, workItemFrom} from './utils';
 
@@ -15,7 +13,6 @@ export const zImageDto = zDataEntry(zImageData).transform(({data: {alt, height, 
   slug,
   src,
   width,
-  widths: [256, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
 }));
 
 export const zImage = z.string().transform((id) => findEntry(zImageDto)({collection: 'images', id}));
@@ -147,8 +144,8 @@ export const zPageOriginals = zContentEntry(zPageOriginalsData).transform(async 
             filterNonEmptySets(rSets.value, rWorks.value)
               .map(setItemFrom)
               .map(({href, image, title}) =>
-                downloadImage(image.src, image.alt, image.width, image.height, 1, dev).then(
-                  (src) => ({href, image: {...image, src}, title}),
+                cacheImage({...image, aspectRatio: 1}).then(
+                  (newImage) => ({href, image: {...image, ...newImage}, title}),
                   () => undefined
                 )
               )

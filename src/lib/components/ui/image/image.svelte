@@ -1,40 +1,35 @@
-<img {...props} {alt} class={IMG({fit, class: c})} on:load={onLoad} {...$$restProps} />
+<img bind:this={_} {alt} {...props} style={lqip && `background-image:url(${lqip})`} class={STYLES({isLoaded, class: c})} {...$$restProps} />
+<noscript>
+  <img {alt} {...props} style={lqip && `background-image:url(${lqip})`} class={STYLES({noScript: true, class: c})} {...$$restProps} />
+</noscript>
 
-<!-- <img
-  {alt}
-  src={lqip}
-  loading="eager"
-  decoding="async"
-  class={IMG({fit, class: ['absolute inset-0 p-[inherit] transition-opacity', isLoaded && 'pointer-events-none opacity-0 duration-700']})}
-/> -->
 <script lang="ts">
   import {dev} from '$app/environment';
-  import {IMG} from './styles';
+  import {onMount} from 'svelte';
+  import {STYLES, type Styles} from './styles';
   import {getImage} from './utils';
 
   // PROPS ---------------------------------------------------------------------------------------------------------------------------------
-  export let alt = '';
-  export let aspectRatio: number | undefined = undefined;
-  export let download = false;
-  export let fit: 'contain' | 'cover' | 'fill' = 'cover';
-  export let height: number;
+  export let alt: HTMLImageElement['alt'] = '';
+  export let height: HTMLImageElement['height'];
+  export let lqip: string | undefined = undefined;
   export let quality = 75;
-  export let src: string;
-  export let width: number;
-  //export let img: GetImg['img'];
-  // export let lqip: GetImg['lqip'];
+  export let src: HTMLImageElement['src'];
+  export let width: HTMLImageElement['width'];
 
   // VARS ----------------------------------------------------------------------------------------------------------------------------------
-  $: props = getImage(src, alt, height, width, aspectRatio, quality, download, dev);
-
-  // STYLES --------------------------------------------------------------------------------------------------------------------------------
-  let c = '';
-  export {c as class};
-
-  // EVENTS --------------------------------------------------------------------------------------------------------------------------------
+  let _: HTMLImageElement;
   let isLoaded = false;
 
-  function onLoad() {
-    isLoaded = true;
-  }
+  $: props = getImage({height, prod: !dev, quality, src, width});
+
+  // STYLES --------------------------------------------------------------------------------------------------------------------------------
+  let c: Styles = '';
+  export {c as class};
+
+  // LIFECYCLE -----------------------------------------------------------------------------------------------------------------------------
+  onMount(() => {
+    if (_.complete) isLoaded = true;
+    _.onload = () => (isLoaded = true);
+  });
 </script>

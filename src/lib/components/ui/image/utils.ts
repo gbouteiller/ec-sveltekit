@@ -1,54 +1,25 @@
-import slugify from '@sindresorhus/slugify';
-import type sharp from 'sharp';
-import type {GetImage} from './schemas';
+import {zGetImageParams, type GetImageParams} from './schemas';
 
-const widths = [256, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
+const vercelWidths = [256, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
-function vercelSrc(src: string, width: number, quality: number) {
+function vercelSrc({quality, src, width}: Pick<GetImageParams, 'quality' | 'src' | 'width'>) {
   return `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
 }
 
-function vercelSrcset(src: string, quality: number) {
-  return widths.map((width) => `${vercelSrc(src, width, quality)} ${width}w`).join(',');
+function vercelSrcset({quality, src}: Pick<GetImageParams, 'quality' | 'src'>) {
+  return vercelWidths.map((width) => `${vercelSrc({quality, src, width})} ${width}w`).join(',');
 }
 
-export function getDimensions({height, width}: Omit<ImgMetadata, 'format'>, aspectRatio?: number) {
-  if (!aspectRatio) aspectRatio = width / height;
-  if (aspectRatio >= width / height) return {height: Math.round(width / aspectRatio), width};
-  return {height, width: Math.round(height * aspectRatio)};
-}
-
-export function getName(alt: string, {format}: ImgMetadata, {height, width}: ImgDimensions) {
-  return `${slugify(alt)}_${width}x${height}.${format}`;
-}
-
-
-export function getImage(
-  src: string,
-  alt: string,
-  height: number,
-  width: number,
-  aspectRatio: number | undefined,
-  quality: number,
-  download: boolean,
-  dev: boolean
-): GetImage {
-  if (download) {
-    const dimensions = getDimensions({height, width}, aspectRatio);
-    const name = getName(alt, {format: src.split('.').at(-1)!}, dimensions);
-    src = `/_images/${name}`;
-  }
-
+export function getImage(params: GetImageParams) {
+  const {height: imgHeight, prod, quality, src, width: imgWidth} = zGetImageParams.parse(params);
+  const width = vercelWidths.find((width) => width >= imgWidth) ?? vercelWidths.at(-1)!;
+  const height = Math.round((width * imgHeight) / imgWidth);
   return {
-    decoding: 'async',
+    decoding: 'async' as const,
     height,
-    loading: 'lazy',
-    src: dev ? src : vercelSrc(src, widths.at(-1)!, quality),
-    srcset: dev ? undefined : vercelSrcset(src, quality),
+    loading: 'lazy' as const,
+    src: prod ? vercelSrc({quality, src, width}) : src,
+    srcset: prod ? vercelSrcset({quality, src}) : undefined,
     width,
   };
 }
-
-// TYPES -----------------------------------------------------------------------------------------------------------------------------------
-export type ImgDimensions = Pick<ImgMetadata, 'height' | 'width'>;
-export type ImgMetadata = Required<Pick<sharp.Metadata, 'format' | 'height' | 'width'>>;

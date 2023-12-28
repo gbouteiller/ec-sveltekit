@@ -5,11 +5,7 @@
   </hgroup>
   <figure class={FIGURE({class: c.FIGURE})}>
     <Image
-      {alt}
-      {height}
-      {src}
-      {width}
-      aspectRatio={1}
+      {...image}
       sizes="(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))"
       class="transition duration-500 ease-in-out hover:scale-110"
     />
@@ -29,17 +25,7 @@
 
   // VARS ----------------------------------------------------------------------------------------------------------------------------------
   const sizes = '';
-
-  //const imageProps = {...image, aspectRatio: 1, sizes};
-
-  $: ({alt, height, src, width} = image);
-  $: imageProps = {
-    alt,
-    height,
-    sizes,
-    width,
-  };
-
+  
   // STYLES --------------------------------------------------------------------------------------------------------------------------------
   let c: Props['class'] = {};
   export {c as class};
