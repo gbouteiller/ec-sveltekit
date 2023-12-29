@@ -12,8 +12,8 @@ function vercelSrcset({quality, src}: Pick<GetImageParams, 'quality' | 'src'>) {
 
 export function getImage(params: GetImageParams) {
   const {height: imgHeight, prod, quality, src, width: imgWidth} = zGetImageParams.parse(params);
-  const width = vercelWidths.find((width) => width >= imgWidth) ?? vercelWidths.at(-1)!;
-  const height = Math.round((width * imgHeight) / imgWidth);
+  const width = prod ? vercelWidths.find((width) => width >= imgWidth) ?? vercelWidths.at(-1)! : imgWidth;
+  const height = prod ? Math.round((width * imgHeight) / imgWidth) : imgHeight;
   return {
     decoding: 'async' as const,
     height,

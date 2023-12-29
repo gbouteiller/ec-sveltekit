@@ -1,16 +1,14 @@
 import {zImageData, zMedia, zType} from '$lib/schemas';
 import {zContentEntry, zDataEntry, type ContentEntry, type DataEntry, type DataRef} from '@niama/notion-tools';
 import {z} from 'zod';
-import {cacheImage, findEntries, findEntry} from '.';
+import {findEntries, findEntry, getLqip} from '.';
 import {i18n} from './i18n';
 import {filterNonEmptySets, setItemFrom, workItemFrom} from './utils';
 
 // IMAGE -----------------------------------------------------------------------------------------------------------------------------------
-export const zImageDto = zDataEntry(zImageData).transform(({data: {alt, height, src, width}, id: slug}) => ({
+export const zImageDto = zDataEntry(zImageData).transform(({data: {alt, height, src, width}}) => ({
   alt,
   height,
-  ratio: width / height,
-  slug,
   src,
   width,
 }));
@@ -143,11 +141,19 @@ export const zPageOriginals = zContentEntry(zPageOriginalsData).transform(async 
         ? Promise.all(
             filterNonEmptySets(rSets.value, rWorks.value)
               .map(setItemFrom)
-              .map(({href, image, title}) =>
-                cacheImage({...image, aspectRatio: 1}).then(
-                  (newImage) => ({href, image: {...image, ...newImage}, title}),
-                  () => undefined
-                )
+              .map(
+                ({href, image, title}) =>
+                  getLqip({...image, aspectRatio: 1}).then(
+                    (lqip) => ({href, image: {...image, lqip}, title}),
+                    (e) => {
+                      console.error(e)
+                      return ;
+                    }
+                  )
+                // cacheImage({...image, aspectRatio: 1}).then(
+                //   (newImage) => ({href, image: {...image, ...newImage}, title}),
+                //   () => undefined
+                // )
               )
           )
         : []

@@ -7,7 +7,7 @@
     <Image
       {...image}
       sizes="(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))"
-      class="transition duration-500 ease-in-out hover:scale-110"
+      class="hover:scale-110"
     />
     <slot />
   </figure>
