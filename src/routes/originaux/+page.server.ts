@@ -16,7 +16,7 @@ const zPage = zContentEntry(
 const zSet = zContentEntry(
   z.object({
     count: z.number(),
-    image: zImage.transform(cacheImage),
+    image: zImage.transform((img) => cacheImage({...img, aspectRatio: 1})),
     title: z.string(),
   })
 );
