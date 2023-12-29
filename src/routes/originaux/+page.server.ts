@@ -3,6 +3,7 @@ export const prerender = true;
 import {cacheImage, findEntries, findEntry} from '$lib/server';
 import {zImage} from '$lib/server/schemas';
 import {zContentEntry} from '@niama/notion-tools';
+import {marked} from 'marked';
 import {z} from 'zod';
 import type {PageServerLoad} from './$types';
 
@@ -32,5 +33,5 @@ export const load: PageServerLoad = async () => {
     .filter(({data: {count}}) => count > 0)
     .map(({data: {image, title}, slug}) => ({href: `/originaux/${slug}`, image, title}));
 
-  return {body, items, title: data.title};
+  return {body: await marked(body), items, title: data.title};
 };

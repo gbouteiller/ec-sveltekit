@@ -16,14 +16,12 @@
 		"test:unit": "vitest"
 	},
 	"devDependencies": {
-		"@magidoc/plugin-svelte-marked": "^4.1.2",
 		"@playwright/test": "^1.40.1",
 		"@sveltejs/adapter-auto": "^3.0.1",
 		"@sveltejs/adapter-vercel": "^4.0.3",
 		"@sveltejs/kit": "^2.0.6",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@tailwindcss/typography": "^0.5.10",
-		"@types/marked": "^6.0.0",
 		"@typescript-eslint/eslint-plugin": "^6.16.0",
 		"@typescript-eslint/parser": "^6.16.0",
 		"autoprefixer": "^10.4.16",
