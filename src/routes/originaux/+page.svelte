@@ -1,12 +1,12 @@
-<Section intent="primary" {title}>
+<!-- <Section intent="primary" {title}>
   <Article source={body} />
-</Section>
+</Section> -->
 <Section grid={items}>
   {#each items as item, index}<Item {index} {...item} />{/each}
 </Section>
 
 <script lang="ts">
-  import {Article} from '$lib/components/ui/article';
+  // import {Article} from '$lib/components/ui/article';
   import {Item} from '$lib/components/ui/item';
   import {Section} from '$lib/components/ui/section';
 
