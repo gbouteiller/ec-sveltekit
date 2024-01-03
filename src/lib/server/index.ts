@@ -1,22 +1,42 @@
 import {dev} from '$app/environment';
-import {NOTION_TOOLS_CMS_ID, NOTION_TOOLS_KEY} from '$env/static/private';
-import eFetch from '@11ty/eleventy-fetch';
-import {createNotionAssets, createNotionCms} from '@niama/notion-tools/server';
+import {CLOUDFLARE_SECRET_KEY, SENDGRID_API_KEY} from '$env/static/private';
+import sgMail from '@sendgrid/mail';
+import type {Action} from '@sveltejs/kit';
+import type {ZodValidation} from 'formsnap';
+import {message, superValidate} from 'sveltekit-superforms/server';
+import type {z} from 'zod';
 
-// CMS -------------------------------------------------------------------------------------------------------------------------------------
-export const {findEntry, findEntries} = createNotionCms({
-  auth: NOTION_TOOLS_KEY,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  fetch: (input, fetchOptions) => eFetch(input, {duration: '59m', type: 'json', fetchOptions}),
-  // fetch: async (input, fetchOptions) => {
-  //   const response = await fetch(input, fetchOptions);
-  //   return response.json();
-  // },
-  pageId: NOTION_TOOLS_CMS_ID,
-});
+export function getFormAction<D extends z.ZodObject<{captcha: z.ZodString}>>({subject, schema}: getFormActionParams<D>): Action {
+  return async (event) => {
+    const form = await superValidate(event, schema);
+    if (!form.valid) return message(form, 'INVALID_FORM');
 
-// ASSETS ----------------------------------------------------------------------------------------------------------------------------------
-export const {cacheImage, getLqip} = createNotionAssets({
-  baseUrl: '/_assets',
-  dir: dev ? './static/_assets' : '.svelte-kit/output/client/_assets',
-});
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({response: form.data.captcha, secret: CLOUDFLARE_SECRET_KEY}),
+    });
+    const {success} = (await response.json()) as {success: boolean};
+    if (!success) return message(form, 'INVALID_CAPTCHA', {status: 403});
+
+    sgMail.setApiKey(SENDGRID_API_KEY);
+
+    if (!dev)
+      await sgMail.send({
+        to: 'eliana.m.corre@gmail.com',
+        from: 'me@elianacorre.com',
+        subject: `elianacorre.com - ${subject}`,
+        html: Object.entries(form.data)
+          .map(([k, v]) => `<b>${k}</b>: ${v}`)
+          .join('<br>'),
+      });
+
+    return message(form, 'SUCCESS');
+  };
+}
+
+// TYPES -----------------------------------------------------------------------------------------------------------------------------------
+export type getFormActionParams<D extends z.ZodObject<{captcha: z.ZodString}>> = {
+  schema: ZodValidation<D>;
+  subject: string;
+};

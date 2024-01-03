@@ -4,11 +4,7 @@
     {#if title}<h3 class={TITLE({class: c.TITLE})}>{title}</h3>{/if}
   </hgroup>
   <figure class={FIGURE({class: c.FIGURE})}>
-    <Image
-      {...image}
-      sizes="(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))"
-      class="hover:scale-110"
-    />
+    <Image {...image} {sizes} class="hover:scale-110" />
     <slot />
   </figure>
 </a>
@@ -24,8 +20,9 @@
   export let title: Props['title'];
 
   // VARS ----------------------------------------------------------------------------------------------------------------------------------
-  const sizes = '';
-  
+  const sizes =
+    '(min-width: 736px) min(calc(100vw - 88px), 550px), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(1.1 * (100vw - 56px))';
+
   // STYLES --------------------------------------------------------------------------------------------------------------------------------
   let c: Props['class'] = {};
   export {c as class};

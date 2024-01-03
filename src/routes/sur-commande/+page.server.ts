@@ -1,33 +1,33 @@
 export const prerender = true;
 
-import {zSetData} from '$lib/notion/schemas';
+import {zWorkData} from '$lib/notion/schemas';
 import {findEntries, findEntry} from '$lib/notion/server';
 import {zIdToCachedImage} from '$lib/notion/server/utils';
-import {getSetHref} from '$lib/notion/utils';
-import {zContentEntry} from '@niama/notion-tools';
+import {zContentEntry, zDataEntry} from '@niama/notion-tools';
 import {z} from 'zod';
 import type {PageServerLoad} from './$types';
 
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
-const zPage = zContentEntry(
+const zCommission = zContentEntry(
   z.object({
     title: z.string(),
   })
 );
 
-const zSet = zContentEntry(
+const zWork = zDataEntry(
   z.object({
-    ...zSetData.shape,
+    ...zWorkData.shape,
     image: zIdToCachedImage(1),
+    thumbnail: zIdToCachedImage(1).optional(),
   })
-).transform(({count, image, title, slug}) => ({count, href: getSetHref(slug), image, title}));
+).transform(({id, image, thumbnail}) => ({id, image: thumbnail ?? image}));
 
 // LOAD ------------------------------------------------------------------------------------------------------------------------------------
 export const load: PageServerLoad = async () => {
-  const [sets, {body, title}] = await Promise.all([
-    findEntries(zSet.array())('sets'),
-    findEntry(zPage)({collection: 'pages', slug: 'originals'}),
+  const [{body, title}, works] = await Promise.all([
+    findEntry(zCommission)({collection: 'commissions', slug: 'animal-totem'}),
+    findEntries(zWork.array())('works'),
   ]);
 
-  return {body, items: sets.filter(({count}) => count > 0), title};
+  return {body, title, works};
 };

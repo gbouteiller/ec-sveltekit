@@ -4,13 +4,19 @@
     {#each menu as { href, isActive, text }}<a {href} class={LINK({isActive})}>{text}</a>{/each}
   </div>
 </nav>
-<slot />
+<div class="flex-1 overflow-y-auto overflow-x-hidden">
+  <slot />
+  {#if isHome}<Footer intent="primary" class={{BASE: 'flex-none'}} />{/if}
+</div>
+{#if !isHome}<Footer class={{BASE: 'flex-none'}} />{/if}
 
 <script lang="ts">
   import {page} from '$app/stores';
+  import {Footer} from '$lib/components/footer';
   import {tv} from 'tailwind-variants';
   import '../app.pcss';
 
+  // VARS ----------------------------------------------------------------------------------------------------------------------------------
   $: menu = [
     {text: 'Originaux', href: '/originaux'},
     {text: 'Sur commande', href: '/sur-commande'},
@@ -18,6 +24,9 @@
     {text: 'Contact', href: '/contact'},
   ].map((nav) => ({...nav, isActive: $page.route.id?.startsWith(nav.href)}));
 
+  $: isHome = $page.route.id === '/';
+
+  // STYLES --------------------------------------------------------------------------------------------------------------------------------
   const NAV = tv({
     slots: {
       BASE: 'z-10 flex flex-none items-center justify-between bg-white px-4 shadow-md lg:px-10',

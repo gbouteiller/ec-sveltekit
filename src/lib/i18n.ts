@@ -90,16 +90,16 @@ export const i18n = {
       success: 'Message envoyé avec succès!',
     },
   },
+  materials: {
+    canvas: 'toile',
+    paper: 'papier',
+  },
   medias: {
     acrylic: 'acrylique',
     ink: 'encre',
     mixedMedia: 'techniques mixtes',
     oil: 'huile',
     watercolor: 'aquarelle',
-  },
-  types: {
-    canvas: 'toile',
-    paper: 'papier',
   },
   validators: {
     email: `Le courriel n'est pas valide.`,

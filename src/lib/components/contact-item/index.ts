@@ -1,14 +1,17 @@
 import {tv} from 'tailwind-variants';
-import Root from './article.svelte';
+import Root from './contact-item.svelte';
 
 // STYLES ----------------------------------------------------------------------------------------------------------------------------------
 export const STYLES = tv({
-  base: 'prose lg:prose-lg xl:prose-xl 2xl:prose-2xl',
+  slots: {
+    BASE: 'flex items-center gap-4 text-lg',
+    ICON: 'h-10 w-10',
+  },
 });
 
 // TYPES -----------------------------------------------------------------------------------------------------------------------------------
-export type Props = {class: Styles; source: string};
-export type Styles = string;
+export type Props = {class: Styles; href: string; icon: string; text: string};
+export type Styles = Partial<(typeof STYLES)['slots']>;
 
 // EXPORTS ---------------------------------------------------------------------------------------------------------------------------------
-export {STYLES as ARTICLE, Root as Article, type Props as ArticleProps, type Styles as ArticleStyles};
+export {STYLES as CONTACT_ITEM, Root as ContactItem, type Props as ContactItemProps, type Styles as ContactItemStyles};
