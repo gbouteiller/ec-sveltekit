@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import {zSetData, zWork} from '$lib/notion/schemas';
 import {findEntry, zIdsToDataEntries} from '$lib/notion/server';
 import {getCachedImage} from '$lib/notion/server/utils';

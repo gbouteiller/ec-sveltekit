@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import {zSetData} from '$lib/notion/schemas';
 import {findEntry, zIdsToDataEntries} from '$lib/notion/server';
 import {zWorkItem} from '$lib/notion/server/utils';
