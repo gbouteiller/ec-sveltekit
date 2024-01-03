@@ -48,6 +48,7 @@
 		"@niama/notion-tools": "^1.5.1",
 		"@sendgrid/mail": "^8.1.0",
 		"@total-typescript/ts-reset": "^0.5.1",
+		"@vercel/nft": "^0.26.1",
 		"bits-ui": "^0.13.0",
 		"clsx": "^2.1.0",
 		"formsnap": "^0.4.2",
