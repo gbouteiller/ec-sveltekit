@@ -2,8 +2,8 @@ export const prerender = true;
 
 import {zSetData, zWork} from '$lib/notion/schemas';
 import {findEntry, zIdsToDataEntries} from '$lib/notion/server';
-import {getCachedImage} from '$lib/notion/server/utils';
-import {getSetCrumb, getWorkFeatures, getWorkHref, getWorkItem} from '$lib/notion/utils';
+import {fetchWorkItem, getCachedImage} from '$lib/notion/server/utils';
+import {getSetCrumb, getWorkFeatures, getWorkHref} from '$lib/notion/utils';
 import {zContentEntry} from '@niama/notion-tools';
 import {error} from '@sveltejs/kit';
 import {z} from 'zod';
@@ -29,7 +29,7 @@ export const load: PageServerLoad = async ({params: {set: setSlug, work: workId}
 
   const [image, ...others] = await Promise.all([
     getCachedImage(work.image),
-    ...set.items.filter(({id}) => id !== workId).map(getWorkItem),
+    ...set.items.filter(({id}) => id !== workId).map(fetchWorkItem),
   ]);
 
   const crumbs = [{text: 'Accueil', href: '/'}, {text: 'Originaux', href: '/originaux'}, getSetCrumb(set), {text: title}];

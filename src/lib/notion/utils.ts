@@ -33,11 +33,6 @@ export function getWorkHref({id, set}: Pick<Work, 'id' | 'set'>) {
   return `/originaux/${set}/${id}`;
 }
 
-export function getWorkItem(work: Pick<Work, 'height' | 'id' | 'image' | 'material' | 'set' | 'stripe' | 'thumbnail' | 'title' | 'width'>) {
-  const {image, stripe, thumbnail, title} = work;
-  return {href: getWorkHref(work), image: thumbnail ?? image, price: getWorkPrice(work), stripe, title};
-}
-
 export function getWorkPrice({height, material, width}: Pick<Work, 'height' | 'material' | 'width'>) {
   return Math.ceil((width * height) / (material === 'canvas' ? 6 : 9));
 }

@@ -26,9 +26,9 @@ export function zIdsToCachedImages(aspectRatio?: number) {
 // export type SetItem = ReturnType<typeof setItemFrom>;
 
 // WORK ------------------------------------------------------------------------------------------------------------------------------------
-export const zWorkItem = zWork.transform(getWorkItem); 
+export const zWorkItem = zWork.transform(fetchWorkItem); 
 
-export async function getWorkItem(work: Work) {
+export async function fetchWorkItem(work: Work) {
   const {date, stripe, thumbnail, title} = work;
   const image = await findEntry(zCachedImage(1))({collection: 'images', id: thumbnail ?? work.image}) 
   return {date, href: getWorkHref(work), image, price: getWorkPrice(work), stripe, title};
