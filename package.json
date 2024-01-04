@@ -44,6 +44,7 @@
 	},
 	"dependencies": {
 		"@11ty/eleventy-fetch": "^4.0.0",
+		"@img/sharp-linux-x64": "^0.33.1",
 		"@melt-ui/svelte": "^0.67.0",
 		"@niama/notion-tools": "^1.5.1",
 		"@sendgrid/mail": "^8.1.0",

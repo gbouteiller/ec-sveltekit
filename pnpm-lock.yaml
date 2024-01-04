@@ -8,6 +8,9 @@ dependencies:
   '@11ty/eleventy-fetch':
     specifier: ^4.0.0
     version: 4.0.0
+  '@img/sharp-linux-x64':
+    specifier: ^0.33.1
+    version: 0.33.1
   '@melt-ui/svelte':
     specifier: ^0.67.0
     version: 0.67.0(svelte@4.2.8)
@@ -584,7 +587,6 @@ packages:
     optionalDependencies:
       '@img/sharp-libvips-linux-x64': 1.0.0
     dev: false
-    optional: true
 
   /@img/sharp-linuxmusl-arm64@0.33.1:
     resolution: {integrity: sha512-D3lV6clkqIKUizNS8K6pkuCKNGmWoKlBGh5p0sLO2jQERzbakhu4bVX1Gz+RS4vTZBprKlWaf+/Rdp3ni2jLfA==}
