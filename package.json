@@ -52,6 +52,7 @@
 		"clsx": "^2.1.0",
 		"formsnap": "^0.4.2",
 		"lucide-svelte": "^0.303.0",
+		"sharp": "0.32",
 		"svelte-turnstile": "^0.5.0",
 		"sveltekit-superforms": "^1.13.1",
 		"tailwind-merge": "^2.2.0",
