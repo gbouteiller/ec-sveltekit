@@ -1,33 +1,16 @@
 export const prerender = true;
 
-import {zWorkData} from '$lib/notion/schemas';
-import {findEntries, findEntry} from '$lib/notion/server';
-import {zIdToCachedImage} from '$lib/notion/server/utils';
-import {zContentEntry, zDataEntry} from '@niama/notion-tools';
-import {z} from 'zod';
-import type {PageServerLoad} from './$types';
+import { getFetchApi } from '$lib/server';
+import { _zCommission } from '../api/commissions/[slug].json/+server';
+import { _zWork } from '../api/works/[id].json/+server';
+import type { PageServerLoad } from './$types';
 
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
-const zCommission = zContentEntry(
-  z.object({
-    title: z.string(),
-  })
-);
-
-const zWork = zDataEntry(
-  z.object({
-    ...zWorkData.shape,
-    image: zIdToCachedImage(1),
-    thumbnail: zIdToCachedImage(1).optional(),
-  })
-).transform(({id, image, thumbnail}) => ({id, image: thumbnail ?? image}));
+const zWork = _zWork.transform(({id, thumbnail: image}) => ({id, image}));
 
 // LOAD ------------------------------------------------------------------------------------------------------------------------------------
-export const load: PageServerLoad = async () => {
-  const [{body, title}, works] = await Promise.all([
-    findEntry(zCommission)({collection: 'commissions', slug: 'animal-totem'}),
-    findEntries(zWork.array())('works'),
-  ]);
-
+export const load: PageServerLoad = async ({fetch}) => {
+  const fetchApi = getFetchApi(fetch);
+  const [{body, title}, works] = await Promise.all([fetchApi(_zCommission)('commissions/animal-totem'), fetchApi(zWork.array())('works')]);
   return {body, title, works};
 };

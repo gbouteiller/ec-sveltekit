@@ -1,8 +1,10 @@
-import {i18n} from '$lib/i18n';
-import type {General, Set, Work} from './schemas';
+import { i18n } from '$lib/i18n';
+import type { GeneralEntry } from '../../routes/api/pages/general.json/+server';
+import type { Set } from '../../routes/api/sets/[slug].json/+server';
+import type { Work } from '../../routes/api/works/[id].json/+server';
 
 // GENERAL ---------------------------------------------------------------------------------------------------------------------------------
-export function getSocial({email, instagram, phone}: Pick<General, 'email' | 'instagram' | 'phone'>) {
+export function getSocial({email, instagram, phone}: Pick<GeneralEntry, 'email' | 'instagram' | 'phone'>) {
   return [
     {href: `tel:${phone}`, icon: 'phone-outline', text: phone},
     {href: `mailto:${email}`, icon: 'email-outline', text: email},
@@ -31,6 +33,11 @@ export function getWorkFeatures({height, material, media, width}: Pick<Work, 'he
 
 export function getWorkHref({id, set}: Pick<Work, 'id' | 'set'>) {
   return `/originaux/${set}/${id}`;
+}
+
+export function getWorkItem(work: Work) {
+  const {date, stripe, thumbnail: image, title} = work;
+  return {date, href: getWorkHref(work), image, price: getWorkPrice(work), stripe, title};
 }
 
 export function getWorkPrice({height, material, width}: Pick<Work, 'height' | 'material' | 'width'>) {

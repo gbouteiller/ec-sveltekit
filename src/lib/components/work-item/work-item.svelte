@@ -11,7 +11,7 @@
   export let image: Props['image'];
   export let index: Props['index'];
   export let price: Props['price'];
-  export let stripe: Props['stripe'];
+  export let stripe: Props['stripe'] = undefined;
   export let title: Props['title'];
 
   // STYLES ----------------------------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,3 @@
-import {zContentEntry, zDataEntry} from '@niama/notion-tools';
 import {z} from 'zod';
 
 // ENUMS -----------------------------------------------------------------------------------------------------------------------------------
@@ -18,11 +17,7 @@ export const materials = ['canvas', 'paper'] as const;
 export const zMaterial = z.enum(materials);
 
 // COMMISSION ------------------------------------------------------------------------------------------------------------------------------
-export const zCommissionData = z.object({
-  title: z.string(),
-});
-export const zCommission = zContentEntry(zCommissionData);
-export type Commission = z.output<typeof zCommission>;
+
 
 // FORM ORDER ------------------------------------------------------------------------------------------------------------------------------
 export const zFormOrder = z.object({
@@ -56,47 +51,20 @@ export const zFormRequest = z.object({
 export type FormRequest = z.infer<typeof zFormRequest>;
 
 // GENERAL ----------------------------------------------------------------------------------------------------------------------------
-export const zGeneralData = z.object({
-  email: z.string().email(),
-  instagram: z.string(),
-  logo: z.string(),
-  phone: z.string(),
-});
-export const zGeneral = zContentEntry(zGeneralData);
-export type General = z.output<typeof zGeneral>;
+
 
 // IMAGE -----------------------------------------------------------------------------------------------------------------------------------
-export const zImageData = z.object({
-  alt: z.string(),
-  height: z.number().int().min(0),
-  src: z.string(),
-  width: z.number().int().min(0),
-});
-export const zImage = zDataEntry(zImageData);
-export type Image = z.output<typeof zImage>;
+
 
 // SET -------------------------------------------------------------------------------------------------------------------------------------
-export const zSetData = z.object({
-  count: z.number(),
-  image: z.string(),
-  items: z.string().array(),
-  title: z.string(),
-});
-export const zSet = zContentEntry(zSetData);
-export type Set = z.output<typeof zSet>;
+
 
 // WORK ------------------------------------------------------------------------------------------------------------------------------------
-export const zWorkData = z.object({
-  date: z.coerce.date(),
-  height: z.number().int().min(0),
-  image: z.string(),
-  material: zMaterial,
-  media: zMedia.array().min(1),
-  set: z.string(),
-  stripe: z.string().optional(),
-  thumbnail: z.string().optional(),
-  title: z.string(),
-  width: z.number().int().min(0),
-});
-export const zWork = zDataEntry(zWorkData);
-export type Work = z.output<typeof zWork>;
+
+
+// API -------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+

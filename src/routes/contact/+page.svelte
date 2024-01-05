@@ -50,8 +50,6 @@
   </Card>
 </div>
 
-
-
 <script lang="ts">
   import {PUBLIC_CLOUDFLARE_SITE_KEY} from '$env/static/public';
   import {ContactItem, type ContactItemStyles} from '$lib/components/contact-item';

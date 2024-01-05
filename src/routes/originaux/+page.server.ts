@@ -1,33 +1,19 @@
 export const prerender = true;
 
-import {zSetData} from '$lib/notion/schemas';
-import {findEntries, findEntry} from '$lib/notion/server';
-import {zIdToCachedImage} from '$lib/notion/server/utils';
-import {getSetHref} from '$lib/notion/utils';
-import {zContentEntry} from '@niama/notion-tools';
-import {z} from 'zod';
-import type {PageServerLoad} from './$types';
+import { getSetHref } from '$lib/notion/utils';
+import { getFetchApi } from '$lib/server';
+import { _zPageOriginals } from '../api/pages/originals.json/+server';
+import { _zSet } from '../api/sets/[slug].json/+server';
+import type { PageServerLoad } from './$types';
 
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
-const zPage = zContentEntry(
-  z.object({
-    title: z.string(),
-  })
-);
-
-const zSet = zContentEntry(
-  z.object({
-    ...zSetData.shape,
-    image: zIdToCachedImage(1),
-  })
-).transform(({count, image, title, slug}) => ({count, href: getSetHref(slug), image, title}));
+const zSet = _zSet.transform(({count, image, title, slug}) => ({count, href: getSetHref(slug), image, title}));
 
 // LOAD ------------------------------------------------------------------------------------------------------------------------------------
-export const load: PageServerLoad = async () => {
-  const [sets, {body, title}] = await Promise.all([
-    findEntries(zSet.array())('sets'),
-    findEntry(zPage)({collection: 'pages', slug: 'originals'}),
-  ]);
+export const load: PageServerLoad = async ({fetch}) => {
+  const fetchApi = getFetchApi(fetch);
+
+  const [sets, {body, title}] = await Promise.all([fetchApi(zSet.array())(`sets`), fetchApi(_zPageOriginals)('pages/originals')]);
 
   return {body, items: sets.filter(({count}) => count > 0), title};
 };

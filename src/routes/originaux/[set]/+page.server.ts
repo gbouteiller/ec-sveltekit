@@ -1,26 +1,24 @@
 export const prerender = true;
 
-import {zSetData} from '$lib/notion/schemas';
-import {findEntry, zIdsToDataEntries} from '$lib/notion/server';
-import {zWorkItem} from '$lib/notion/server/utils';
-import {zContentEntry} from '@niama/notion-tools';
-import {error} from '@sveltejs/kit';
-import {z} from 'zod';
-import type {PageServerLoad} from './$types';
+import { getWorkItem } from '$lib/notion/utils';
+import { getFetchApi } from '$lib/server';
+import { error } from '@sveltejs/kit';
+import { z } from 'zod';
+import { _zSet } from '../../api/sets/[slug].json/+server';
+import { _zWork } from '../../api/works/[id].json/+server';
+import type { PageServerLoad } from './$types';
 
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
-const zSet = zContentEntry(
-  z.object({
-    ...zSetData.shape,
-    items: zIdsToDataEntries('works', zWorkItem.array()),
-  })
-);
+const zSet = z.object({
+  ..._zSet.shape,
+  items: _zWork.transform(getWorkItem).array(),
+});
 
 // LOAD ------------------------------------------------------------------------------------------------------------------------------------
-export const load: PageServerLoad = async ({params: {set: slug}}) => {
+export const load: PageServerLoad = async ({fetch, params: {set: slug}}) => {
   if (!slug) error(404);
 
-  const {body, items, title} = await findEntry(zSet)({collection: 'sets', slug});
+  const {body, items, title} = await getFetchApi(fetch)(zSet)(`sets/${slug}`);
   if (items.length === 0) error(404);
 
   const crumbs = [{text: 'Accueil', href: '/'}, {text: 'Originaux', href: '/originaux'}, {text: title}];

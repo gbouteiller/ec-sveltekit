@@ -6,6 +6,15 @@ import type {ZodValidation} from 'formsnap';
 import {message, superValidate} from 'sveltekit-superforms/server';
 import type {z} from 'zod';
 
+export function getFetchApi(fetch: Fetch) {
+  return <S extends z.ZodTypeAny>(schema: S) =>
+    async (uri: string): Promise<z.output<S>> => {
+      const response = await fetch(`/api/${uri}.json`);
+      const dto = await response.json();
+      return schema.parseAsync(dto);
+    };
+}
+
 export function getFormAction<D extends z.ZodObject<{captcha: z.ZodString}>>({subject, schema}: getFormActionParams<D>): Action {
   return async (event) => {
     const form = await superValidate(event, schema);
@@ -36,6 +45,9 @@ export function getFormAction<D extends z.ZodObject<{captcha: z.ZodString}>>({su
 }
 
 // TYPES -----------------------------------------------------------------------------------------------------------------------------------
+export type Fetch = typeof fetch;
+export type FetchApi = ReturnType<typeof getFetchApi>;
+
 export type getFormActionParams<D extends z.ZodObject<{captcha: z.ZodString}>> = {
   schema: ZodValidation<D>;
   subject: string;
