@@ -6,6 +6,9 @@ import {z} from 'zod';
 import {_zGeneral} from '../../pages/general.json/+server';
 import type {RequestHandler} from './$types';
 
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 export const _zIndexSectionContactEntry = zContentEntry(
   z.object({

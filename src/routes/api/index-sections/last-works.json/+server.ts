@@ -7,6 +7,9 @@ import {z} from 'zod';
 import {_zWork, _zWorkItem} from '../../works/[id].json/+server';
 import type {RequestHandler} from './$types';
 
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 export const _zIndexSectionLastWorksEntry = zContentEntry(
   z.object({

@@ -7,6 +7,9 @@ import {z} from 'zod';
 import {_zImage} from '../../images/[id]/[[aspectRatio]].json/+server';
 import type {RequestHandler} from './$types';
 
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 export const _zGeneralEntry = zContentEntry(
   z.object({

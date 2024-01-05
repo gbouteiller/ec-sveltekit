@@ -1,8 +1,15 @@
-import {cacheImage, findEntry} from '$lib/notion/server';
+import {cacheImage, findEntries, findEntry} from '$lib/notion/server';
 import {zDataEntry} from '@niama/notion-tools';
 import {json} from '@sveltejs/kit';
 import {z} from 'zod';
-import type {RequestHandler} from './$types';
+import type {EntryGenerator, RequestHandler} from './$types';
+
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
+export const entries: EntryGenerator = () => {
+  return findEntries(_zImageEntry.transform(({id}) => ({id})).array())('commissions');
+};
 
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 export const _zImageEntry = zDataEntry(

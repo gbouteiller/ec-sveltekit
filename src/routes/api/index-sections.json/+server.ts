@@ -9,6 +9,9 @@ import {_zIndexSectionLastWorks, _zIndexSectionLastWorksFromEntry} from '../inde
 import {_zIndexSectionToOrder, _zIndexSectionToOrderFromEntry} from '../index-sections/to-order.json/+server';
 import type {RequestHandler} from './$types';
 
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 // export const _zIndexSectionToOrderEntry = zContentEntry(
 //   z.object({

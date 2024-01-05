@@ -1,11 +1,18 @@
-import {findEntry} from '$lib/notion/server';
+import {findEntries, findEntry} from '$lib/notion/server';
 import {getFetchApi, type FetchApi} from '$lib/server';
 import {zContentEntry} from '@niama/notion-tools';
 import {json} from '@sveltejs/kit';
 import {z} from 'zod';
 import {_zImage} from '../../images/[id]/[[aspectRatio]].json/+server';
 import {_zWork} from '../../works/[id].json/+server';
-import type {RequestHandler} from './$types';
+import type {EntryGenerator, RequestHandler} from './$types';
+
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
+export const entries: EntryGenerator = () => {
+  return findEntries(_zSetEntry.transform(({slug}) => ({slug})).array())('sets');
+};
 
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 export const _zSetEntry = zContentEntry(

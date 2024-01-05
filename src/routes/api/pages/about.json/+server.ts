@@ -6,6 +6,9 @@ import {z} from 'zod';
 import {_zAboutSection} from '../../about-sections/[slug].json/+server';
 import type {RequestHandler} from './$types';
 
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 export const _zPageAboutEntry = zContentEntry(
   z.object({

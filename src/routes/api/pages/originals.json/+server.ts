@@ -4,6 +4,9 @@ import {json} from '@sveltejs/kit';
 import {z} from 'zod';
 import type {RequestHandler} from './$types';
 
+// PRERENDER -------------------------------------------------------------------------------------------------------------------------------
+export const prerender = true;
+
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
 export const _zPageOriginalsEntry = zContentEntry(
   z.object({
