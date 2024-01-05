@@ -8,7 +8,7 @@ import type {EntryGenerator, RequestHandler} from './$types';
 export const prerender = true;
 
 export const entries: EntryGenerator = () => {
-  return findEntries(_zImageEntry.transform(({id}) => ({id})).array())('images');
+  return findEntries(_zImageEntry.transform(({id}) => ({aspectRatio: '1', id})).array())('images');
 };
 
 // SCHEMAS ---------------------------------------------------------------------------------------------------------------------------------
